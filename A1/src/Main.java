@@ -1,3 +1,8 @@
+// Title: Assignment 1: Simple Java Application
+// Author: Rustam Zazai
+// Date: 2025-05-21
+// Description: Assignment 1: Simple Java Application, writing code for a BMI calculator.
+
 import java.util.*;
 
 public class Main {
@@ -6,8 +11,8 @@ public class Main {
         final Scanner input = new Scanner(System.in);
 
         // Used for getting the BMI
-        final float CONVERSION_FACTOR = 703;
-        float userBmi = 0;
+        final double CONVERSION_FACTOR = 703;
+        double userBmi = 0;
 
         // BMI calculation process variables
         boolean loopForContinuingBmiCalculation = true;
@@ -15,11 +20,11 @@ public class Main {
 
         // Height variables
         boolean validationLoopForHeightInInches = true;
-        float userInputHeightInInches = 0;
+        double userInputHeightInInches = 0;
 
         // Weight variables
         boolean validationLoopForWeightInPounds = true;
-        float userInputWeightInPounds = 0;
+        double userInputWeightInPounds = 0;
 
         // Do while loop
         while (loopForContinuingBmiCalculation) {
@@ -49,20 +54,20 @@ public class Main {
                         while (validationLoopForHeightInInches) {
                             System.out.println("Enter height in inches, no less than 24.0 and no more than 120.0");
 
-                            if (input.hasNextFloat()) {
-                                userInputHeightInInches = input.nextFloat();
+                            if (input.hasNextDouble()) {
+                                userInputHeightInInches = input.nextDouble();
 
-                                //If valid float
+                                //If the user entered a valid height meeting the range requirements
                                 if (userInputHeightInInches >= 24  && userInputHeightInInches <= 120){
 
                                     // Do while loop for weight
                                     while (validationLoopForWeightInPounds){
                                         System.out.println("Enter weight in pounds, no less than 25");
 
-                                        if (input.hasNextFloat()){
-                                            userInputWeightInPounds = input.nextFloat();
+                                        if (input.hasNextDouble()){
+                                            userInputWeightInPounds = input.nextDouble();
 
-                                            // User enters a float that is valid
+                                            // User enters a double that is valid
                                             if (userInputWeightInPounds >= 25){
                                                 // Get the BMI by using the emperical formula.
                                                 userBmi = (userInputWeightInPounds / (userInputHeightInInches * userInputHeightInInches)) * CONVERSION_FACTOR;
@@ -94,14 +99,14 @@ public class Main {
                                                 validationLoopForWeightInPounds = false;
                                             }
 
-                                            // User enters a float that is valid
+                                            // User enters a double that is valid
                                             else {
                                                 System.out.println("Enter a value equal to or greater than 25");
                                             }
                                         }
 
                                         else {
-                                            System.out.println("You didn't enter a float");
+                                            System.out.println("You didn't enter a double");
                                         }
                                     }
                                 }
@@ -112,9 +117,9 @@ public class Main {
 
                             }
 
-                            //Not a float
+                            //Not a double
                             else{
-                                System.out.println("Enter a float type number");
+                                System.out.println("Enter a double type number");
                             }
                         }
                     }
@@ -125,14 +130,14 @@ public class Main {
                     }
                 }
 
-                // Valid float but input but not 1 or 2
+                // Valid double but input but is not 1 or 2
                 else {
                     System.out.println("Invalid int");
                     loopForContinuingBmiCalculation = true;
                 }
             }
 
-            // User did not enter a float
+            // User did not enter a double
             else {
                 System.out.println("No int entered");
                 loopForContinuingBmiCalculation = true;
