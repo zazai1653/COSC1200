@@ -8,7 +8,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         final Scanner input = new Scanner(System.in);
-        
+
         /* below are data types used to get the monthly and semester average */
 
         // for january
@@ -60,8 +60,8 @@ public class Main {
 
         /* above are data types used to get the monthly and semester average */
 
-        
-        
+
+
         /* below is the code for getting the average temperature in january */
 
         while (validationLoopForLowestJanuaryTemperature == 0){
@@ -80,8 +80,10 @@ public class Main {
                         // if the user enters a valid double for highest temperature in the month, generate 31 randomly generated numbers within a suitable range specified by the user
                         for (int i=0; i < 31; i++){
                             randomNumberGenerated = Math.random() * (highestJanuaryTemperature - lowestJanuaryTemperature) + lowestJanuaryTemperature;
-                            // adds the average temperature every day to find the sum
+                            // records the temperature every day
                             dailyTemperatureForJanuary[i] = randomNumberGenerated;
+                            // adds the average temperature every day to find the sum
+                            totalTemperatureForJanuary += dailyTemperatureForJanuary[i];
                         }
                         // exit the loop and move on
                         validationLoopForLowestJanuaryTemperature = 1;
@@ -117,8 +119,10 @@ public class Main {
                         // if the user enters a valid double for highest temperature in the month, generate 28 randomly generated numbers within a suitable range specified by the user
                         for (int i=0; i < 28; i++){
                             randomNumberGenerated = Math.random() * (highestFebruaryTemperature - lowestFebruaryTemperature) + lowestJanuaryTemperature;
-                            // adds the average temperature every day to find the sum
+                            // records the temperature every day
                             dailyTemperatureForFebruary[i] = randomNumberGenerated;
+                            // adds the average temperature every day to find the sum
+                            totalTemperatureForFebruary += dailyTemperatureForFebruary[i];
                         }
                         // exit the loop and move on
                         validationLoopForLowestFebruaryTemperature = 1;
@@ -154,8 +158,11 @@ public class Main {
                         // if the user enters a valid double for highest temperature in the month, generate 31 randomly generated numbers within a suitable range specified by the user
                         for (int i=0; i < 31; i++){
                             randomNumberGenerated = Math.random() * (highestMarchTemperature - lowestMarchTemperature) + lowestMarchTemperature;
-                            // adds the average temperature every day to find the sum
+                            // records the temperature every day
                             dailyTemperatureForMarch[i] = randomNumberGenerated;
+                            // adds the average temperature every day to find the sum
+                            totalTemperatureForMarch += dailyTemperatureForMarch[i];
+
                         }
                         // exit the loop and move on
                         validationLoopForLowestMarchTemperature = 1;
@@ -191,8 +198,10 @@ public class Main {
                         // if the user enters a valid double for highest temperature in the month, generate 30 randomly generated numbers within a suitable range specified by the user
                         for (int i=0; i < 30; i++){
                             randomNumberGenerated = Math.random() * (highestAprilTemperature - lowestAprilTemperature) + lowestAprilTemperature;
-                            // adds the average temperature every day to find the sum
+                            // records the temperature every day
                             dailyTemperatureForApril[i] = randomNumberGenerated;
+                            // adds the average temperature every day to find the sum
+                            totalTemperatureForApril += dailyTemperatureForApril[i];
                         }
                         // exit the loop and move on
                         validationLoopForLowestAprilTemperature = 1;
@@ -213,27 +222,15 @@ public class Main {
         /* below is the code for getting the monthly and semester average temperature */
 
         // find the sum of temperature for january and divide it by 31
-        for (int i=0; i<31; i++){
-            totalTemperatureForJanuary += dailyTemperatureForJanuary[i];
-        }
         averageJanuaryTemperature = totalTemperatureForJanuary / DAYS_IN_JANUARY;
 
         // find the sum of temperature for february and divide it by 28
-        for (int i=0; i<28; i++){
-            totalTemperatureForFebruary += dailyTemperatureForFebruary[i];
-        }
         averageFebruaryTemperature = totalTemperatureForFebruary / DAYS_IN_FEBRUARY;
 
         // find the sum of temperature for march and divide it by 31
-        for (int i=0; i<31; i++){
-            totalTemperatureForMarch += dailyTemperatureForMarch[i];
-        }
         averageMarchTemperature = totalTemperatureForMarch / DAYS_IN_MARCH;
 
         // find the sum of temperature for april and divide it by 30
-        for (int i=0; i<30; i++){
-            totalTemperatureForApril += dailyTemperatureForApril[i];
-        }
         averageAprilTemperature = totalTemperatureForApril / DAYS_IN_APRIL;
 
         // find the sum of temperature for the semester average and divide it by 4
@@ -250,7 +247,7 @@ public class Main {
         System.out.printf("The average temperature for March is %.2f\n", averageMarchTemperature);
         System.out.printf("The average temperature for April is %.2f\n", averageAprilTemperature);
         System.out.printf("The average temperature for the semester is %.2f\n", averageSemesterTemperature);
-        
+
         /* above code prints the average temperature for the first 4 months, and the semester average*/
     }
 }
