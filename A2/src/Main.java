@@ -164,7 +164,10 @@ class CipherProgram {
             {
                 complexityKey = input.nextInt();
                 input.nextLine();
-                validationForUserInputComplexityKey = false;
+                // ensures that a valid complexity key is entered
+                if(complexityKey >= 0){
+                    validationForUserInputComplexityKey = false;
+                }
             }
             else{
                 System.out.println("Enter a number value between −2,147,483,648 to 2,147,483,647");
@@ -203,7 +206,32 @@ class CipherProgram {
     }
 
     void funcEncryptAndSubstitute(){
-
+        if(compl < 0){
+            for (int i = 0; i < userInputToProcess.length(); i++){
+                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for(int j = 0; j > userInputShiftKey; j--){
+                    shiftKey--;
+                    if (shiftKey < 0){
+                        shiftKey = 51;
+                    }
+                }
+                translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
+            }
+            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
+        }
+        else{
+            for (int i = 0; i < userInputToProcess.length(); i++){
+                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for(int j = 0; j < userInputShiftKey; j++){
+                    shiftKey++;
+                    if (shiftKey > 51){
+                        shiftKey = 0;
+                    }
+                }
+                translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
+            }
+            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
+        }
     }
 
     void funcDecryptAndSubstitute(){
