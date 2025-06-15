@@ -11,10 +11,10 @@ class CipherProgram {
     // variables used for the character set used in the cipher
     final String ENGLISH_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     final String COSC1200_ALPHABET = "YWLRASKTEZGMVHQBXNCDIJFUOPywlrasktezgmvhqbxncdijfuop";
-    final byte ALPHABET_MAX_INDEX_SIZE = 52;
+    final byte ALPHABET_MAX_INDEX_SIZE = 51;
 
     // the variable used to continue the cipher
-    boolean continueCipher = true;
+    int continueCipher = 1;
 
     // variables used to get user's choice of encryption or decryption, and the validation condition for it
     byte userChoiceOfEncryptionOrDecryptionMode = 0;
@@ -25,19 +25,67 @@ class CipherProgram {
     boolean validationLoopForSubstitutionOrTranslation = true;
 
     // variables used to get what the user wants to process, the shift key, the translated output
-    String userInputToProcess = "\0";
-    String translatedCipher = "\0";
-    int shiftKey = 0;
+    String userInputToProcess = "";
+    String translatedCipher = "";
+
+    // shift key variable used to input the shift key and the validation loop.
+    int userInputShiftKey = 0;
+    byte shiftKey = 0;
+    boolean validationForUserInputShiftKey = true;
+    // characterIndexOfUserInput is used for the shiftkey to determine how the program will encrypt/decrypt the program
+    byte characterIndexOfUserInput = 0;
+    byte counterForUserInputShiftKey = 0;
 
     public CipherProgram(){
-        System.out.println("Constructor called");
-        if(userChoiceOfEncryptionOrDecryptionMode == 1){
+        userChoiceOfEncryptionOrDecryptionMode = 0;
+        validationLoopForEncryptOrDecryptMode = true;
+        userChoiceOfSubstitutionOrTranslation = 0;
+        validationLoopForSubstitutionOrTranslation = true;
+        userInputToProcess = "";
+        translatedCipher = "";
 
+        while (continueCipher == 1){
+            System.out.println("Press 1 to run a cipher program, 2 to exit.");
+            if(input.hasNextInt()){
+                continueCipher = input.nextInt();
+                input.nextLine();
+                if (continueCipher == 1) {
+                    functionForGettingEncryptionOrDecryptionMode();
+
+                    if (userChoiceOfEncryptionOrDecryptionMode == 1) {
+                        System.out.println("Enter the value you would like to encrypt");
+                        userInputToProcess = input.nextLine();
+                        functionForGettingCipherModeOfSubstitutionOrTranslation();
+
+                        if (userChoiceOfSubstitutionOrTranslation == 1) {
+                            System.out.println("The user wants to encryp and use substitution");
+                        } else {
+                            System.out.println("The user wants to encryp and use translation");
+                            functionForGettingShiftKey();
+                            funcEncryptAndTranslate();
+                        }
+                    } else {
+                        System.out.println("Enter the value you would like to decrypt");
+                        userInputToProcess = input.nextLine();
+                        functionForGettingCipherModeOfSubstitutionOrTranslation();
+
+                        if (userChoiceOfSubstitutionOrTranslation == 1) {
+                            System.out.println("The user wants to decrypt and use substitution");
+
+                        } else {
+                            System.out.println("The user wants to decrypt and use translation");
+                            functionForGettingShiftKey();
+                            funcDecryptAndTranslate();
+                        }
+                    }
+                    }
+                }
+            else{
+                System.out.println("1 to encrypt/decrypt, 2 to exit");
+                input.next();
+            }
         }
-        else{
-            
-        }
-        functionForGettingCipherModeOfSubstitutionOrTranslation();
+        // end of constructor here
     }
 
     void functionForGettingEncryptionOrDecryptionMode(){
@@ -45,7 +93,7 @@ class CipherProgram {
             System.out.println("Enter 1 to encrypt a message, or 2 to decrypt.");
             if (input.hasNextInt()){
                 userChoiceOfEncryptionOrDecryptionMode = input.nextByte();
-                System.out.println("You entered a valid input to encrypt/decrypt a message.");
+                input.nextLine();
                 if (userChoiceOfEncryptionOrDecryptionMode == 1){
                     validationLoopForEncryptOrDecryptMode = false;
                 }
@@ -57,7 +105,7 @@ class CipherProgram {
                 }
             }
             else{
-                System.out.println("You didn't make a valid selection.");
+                System.out.println("The options are 1 (encrypt) or 2 (decrypt).");
                 input.next();
             }
         }
@@ -68,7 +116,7 @@ class CipherProgram {
             System.out.println("For the cipher, enter 1 to substitute or 2 to translate.");
             if (input.hasNextInt()){
                 userChoiceOfSubstitutionOrTranslation = input.nextByte();
-                System.out.println("You entered a valid input to encrypt/decrypt a message.");
+                input.nextLine();
                 if (userChoiceOfSubstitutionOrTranslation == 1){
                     validationLoopForSubstitutionOrTranslation = false;
                 }
@@ -80,21 +128,94 @@ class CipherProgram {
                 }
             }
             else{
-                System.out.println("You didn't make a valid selection.");
+                System.out.println("The options are 1 (substitute) or 2 (translate).");
                 input.next();
             }
         }
     }
 
-    void functionForEncryption(){
-        System.out.println("Enter the value you would like to encrypt");
-        userInputToProcess = input.nextLine();
+    void functionForGettingShiftKey(){
+        while(validationForUserInputShiftKey){
+            System.out.println("Enter the shift key you would like to use");
+            if(input.hasNextInt())
+            {
+                userInputShiftKey = input.nextInt();
+                input.nextLine();
+                validationForUserInputShiftKey = false;
+            }
+            else{
+                System.out.println("Enter a number value between −2,147,483,648 to 2,147,483,647");
+                input.next();
+            }
+        }
     }
-    void functionForDecryption(){
-        System.out.println("Enter the value you would like to decrypt");
-        userInputToProcess = input.nextLine();
+
+    void funcEncryptAndTranslate(){
+        if(userInputShiftKey < 0){
+            for (int i = 0; i < userInputToProcess.length(); i++){
+                characterIndexOfUserInput = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for(int j = 0; j > userInputShiftKey; j--){
+                    characterIndexOfUserInput--;
+                    if (characterIndexOfUserInput < 0){
+                        characterIndexOfUserInput = 51;
+                    }
+                }
+                translatedCipher += ENGLISH_ALPHABET.charAt(characterIndexOfUserInput);
+            }
+            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
+        }
+        else{
+            for (int i = 0; i < userInputToProcess.length(); i++){
+                characterIndexOfUserInput = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for(int j = 0; j < userInputShiftKey; j++){
+                    characterIndexOfUserInput++;
+                    if (characterIndexOfUserInput > 51){
+                        characterIndexOfUserInput = 0;
+                    }
+                }
+                translatedCipher += ENGLISH_ALPHABET.charAt(characterIndexOfUserInput);
+            }
+            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
+        }
     }
-}
+
+    void funcEncryptAndSubstitute(){
+
+    }
+
+    void functionForDecryptionSubstitution(){
+
+    }
+
+    void funcDecryptAndTranslate() {
+            if (userInputShiftKey < 0) {
+                for (int i = 0; i < userInputToProcess.length(); i++) {
+                    characterIndexOfUserInput = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                    for (int j = 0; j > userInputShiftKey; j--) {
+                        characterIndexOfUserInput--;
+                        if (characterIndexOfUserInput < 0) {
+                            characterIndexOfUserInput = 51;
+                        }
+                    }
+                    translatedCipher += ENGLISH_ALPHABET.charAt(characterIndexOfUserInput);
+                }
+                System.out.printf("Your decrypted translated cipher is %s \n", translatedCipher);
+            } else {
+                for (int i = 0; i < userInputToProcess.length(); i++) {
+                    characterIndexOfUserInput = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                    for (int j = 0; j < userInputShiftKey; j++) {
+                        characterIndexOfUserInput++;
+                        if (characterIndexOfUserInput > 51) {
+                            characterIndexOfUserInput = 0;
+                        }
+                    }
+                    translatedCipher += ENGLISH_ALPHABET.charAt(characterIndexOfUserInput);
+                }
+                System.out.printf("Your decrypted translated cipher is %s \n", translatedCipher);
+            }
+        }
+    }
+
 
 public class Main{
 
