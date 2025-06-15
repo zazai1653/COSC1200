@@ -39,8 +39,8 @@ class CipherProgram
     char placeHolderToUseInConversion = 0;
     boolean initializationForSubstitution = true;
 
-    // Constructor which will call all the methods required to complete the program.
-    public CipherProgram()
+    // Function which will call all the methods required to complete the program.
+    void startProgram()
     {
         // Do while loop which will process a cipher if the user desires.
         while (continueCipher == 1)
@@ -372,6 +372,7 @@ class CipherProgram
 public class Main{
 
     public static void main(String[] args){
-        CipherProgram cipherProgram = new CipherProgram(); // Create an instance of the class, which will call its constructor.
+        CipherProgram cipherProgram = new CipherProgram(); // Create an instance of the class.
+        cipherProgram.startProgram();
     }
 }
