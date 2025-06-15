@@ -35,9 +35,11 @@ class CipherProgram {
     byte shiftKey = 0;
     boolean validationForUserInputComplexityKey = true;
     int complexityKey = 0;
+    char placeHolderToUseInConversion = 0;
+    boolean initializationForSubstitution = true;
 
-    public CipherProgram(){
-        while (continueCipher == 1){
+    public CipherProgram() {
+        while (continueCipher == 1) {
             userChoiceOfEncryptionOrDecryptionMode = 0;
             validationLoopForEncryptOrDecryptMode = true;
             userChoiceOfSubstitutionOrTranslation = 0;
@@ -45,13 +47,15 @@ class CipherProgram {
             userInputShiftKey = 0;
             validationForUserInputComplexityKey = true;
             complexityKey = 0;
+            placeHolderToUseInConversion = 0;
+            initializationForSubstitution = true;
             userInputToProcess = "";
             translatedCipher = "";
             validationForUserInputShiftKey = true;
             shiftKey = 0;
 
             System.out.println("Press 1 to run a cipher program, 2 to exit.");
-            if(input.hasNextInt()){
+            if (input.hasNextInt()) {
                 continueCipher = input.nextInt();
                 input.nextLine();
                 if (continueCipher == 1) {
@@ -79,123 +83,111 @@ class CipherProgram {
                         if (userChoiceOfSubstitutionOrTranslation == 1) {
                             System.out.println("The user wants to decrypt and use substitution");
                             funcGetComplexityKey();
-                            funcDecryptAndTranslate();
+                            funcDecryptAndSubstitute();
                         } else {
                             System.out.println("The user wants to decrypt and use translation");
                             funcGetShiftKey();
                             funcDecryptAndTranslate();
                         }
                     }
-                    }
                 }
-            else{
+            } else {
                 System.out.println("1 to encrypt/decrypt, 2 to exit");
                 input.next();
             }
         }
     }
 
-    void funcGetModeOfEncryptionOrDecryption(){
-        while (validationLoopForEncryptOrDecryptMode){
+    void funcGetModeOfEncryptionOrDecryption() {
+        while (validationLoopForEncryptOrDecryptMode) {
             System.out.println("Enter 1 to encrypt a message, or 2 to decrypt.");
-            if (input.hasNextInt()){
+            if (input.hasNextInt()) {
                 userChoiceOfEncryptionOrDecryptionMode = input.nextByte();
                 input.nextLine();
-                if (userChoiceOfEncryptionOrDecryptionMode == 1){
+                if (userChoiceOfEncryptionOrDecryptionMode == 1) {
                     validationLoopForEncryptOrDecryptMode = false;
-                }
-                else if (userChoiceOfEncryptionOrDecryptionMode == 2) {
+                } else if (userChoiceOfEncryptionOrDecryptionMode == 2) {
                     validationLoopForEncryptOrDecryptMode = false;
-                }
-                else {
+                } else {
                     System.out.println("The options are 1 (encrypt) or 2 (decrypt).");
                 }
-            }
-            else{
+            } else {
                 System.out.println("The options are 1 (encrypt) or 2 (decrypt).");
                 input.next();
             }
         }
     }
 
-    void funcGetCipherModeOfSubstitutionOrTranslation(){
-        while (validationLoopForSubstitutionOrTranslation){
+    void funcGetCipherModeOfSubstitutionOrTranslation() {
+        while (validationLoopForSubstitutionOrTranslation) {
             System.out.println("For the cipher, enter 1 to substitute or 2 to translate.");
-            if (input.hasNextInt()){
+            if (input.hasNextInt()) {
                 userChoiceOfSubstitutionOrTranslation = input.nextByte();
                 input.nextLine();
-                if (userChoiceOfSubstitutionOrTranslation == 1){
+                if (userChoiceOfSubstitutionOrTranslation == 1) {
                     validationLoopForSubstitutionOrTranslation = false;
-                }
-                else if (userChoiceOfSubstitutionOrTranslation == 2) {
+                } else if (userChoiceOfSubstitutionOrTranslation == 2) {
                     validationLoopForSubstitutionOrTranslation = false;
-                }
-                else {
+                } else {
                     System.out.println("The options are 1 (substitute) or 2 (translate).");
                 }
-            }
-            else{
+            } else {
                 System.out.println("The options are 1 (substitute) or 2 (translate).");
                 input.next();
             }
         }
     }
 
-    void funcGetShiftKey(){
-        while(validationForUserInputShiftKey){
+    void funcGetShiftKey() {
+        while (validationForUserInputShiftKey) {
             System.out.println("Enter the shift key you would like to use");
-            if(input.hasNextInt())
-            {
+            if (input.hasNextInt()) {
                 userInputShiftKey = input.nextInt();
                 input.nextLine();
                 validationForUserInputShiftKey = false;
-            }
-            else{
+            } else {
                 System.out.println("Enter a number value between −2,147,483,648 to 2,147,483,647");
                 input.next();
             }
         }
     }
 
-    void funcGetComplexityKey(){
-        while(validationForUserInputComplexityKey){
-            System.out.println("Enter the shift key you would like to use");
-            if(input.hasNextInt())
-            {
+    void funcGetComplexityKey() {
+        while (validationForUserInputComplexityKey) {
+            System.out.println("Enter the complexity key to use (whole number greater than 0)");
+            if (input.hasNextInt()) {
                 complexityKey = input.nextInt();
                 input.nextLine();
                 // ensures that a valid complexity key is entered
-                if(complexityKey >= 0){
+                if (complexityKey > 0) {
                     validationForUserInputComplexityKey = false;
                 }
-            }
-            else{
+            } else {
                 System.out.println("Enter a number value between −2,147,483,648 to 2,147,483,647");
                 input.next();
             }
         }
     }
 
-    void funcEncryptAndTranslate(){
-        if(userInputShiftKey < 0){
-            for (int i = 0; i < userInputToProcess.length(); i++){
-                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
-                for(int j = 0; j > userInputShiftKey; j--){
+    void funcEncryptAndTranslate() {
+        if (userInputShiftKey < 0) {
+            for (int i = 0; i < userInputToProcess.length(); i++) {
+                shiftKey = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for (int j = 0; j > userInputShiftKey; j--) {
                     shiftKey--;
-                    if (shiftKey < 0){
+                    if (shiftKey < 0) {
                         shiftKey = 51;
                     }
                 }
                 translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
             }
             System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
-        }
-        else{
-            for (int i = 0; i < userInputToProcess.length(); i++){
-                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
-                for(int j = 0; j < userInputShiftKey; j++){
+        } else {
+            for (int i = 0; i < userInputToProcess.length(); i++) {
+                shiftKey = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
+                for (int j = 0; j < userInputShiftKey; j++) {
                     shiftKey++;
-                    if (shiftKey > 51){
+                    if (shiftKey > 51) {
                         shiftKey = 0;
                     }
                 }
@@ -205,37 +197,58 @@ class CipherProgram {
         }
     }
 
-    void funcEncryptAndSubstitute(){
-        if(compl < 0){
-            for (int i = 0; i < userInputToProcess.length(); i++){
-                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
-                for(int j = 0; j > userInputShiftKey; j--){
-                    shiftKey--;
-                    if (shiftKey < 0){
-                        shiftKey = 51;
+    void funcEncryptAndSubstitute()
+    {
+        for (int i = 0; i < userInputToProcess.length(); i++)
+        {
+            initializationForSubstitution = true;
+            for (int j = 0; j < complexityKey; j++)
+                {
+                    if (initializationForSubstitution == true )
+                    {
+                        if (initializationForSubstitution == true && complexityKey > 1) {
+                            placeHolderToUseInConversion = (char) COSC1200_ALPHABET.charAt(ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i)));
+                            initializationForSubstitution = false;
+                        }
+                        else
+                        {
+                            placeHolderToUseInConversion = (char) COSC1200_ALPHABET.charAt(ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i)));
+                        }
+                    } else // this will use the complexity key to continuously encrypt the output
+                    {
+                        placeHolderToUseInConversion = COSC1200_ALPHABET.charAt(ENGLISH_ALPHABET.indexOf(placeHolderToUseInConversion));
                     }
                 }
-                translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
-            }
-            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
+            translatedCipher += placeHolderToUseInConversion;
         }
-        else{
-            for (int i = 0; i < userInputToProcess.length(); i++){
-                shiftKey = (byte)ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
-                for(int j = 0; j < userInputShiftKey; j++){
-                    shiftKey++;
-                    if (shiftKey > 51){
-                        shiftKey = 0;
-                    }
-                }
-                translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
-            }
-            System.out.printf("Your encrypted translated cipher is %s \n", translatedCipher);
-        }
+        System.out.printf("Your encrypted substituted cipher is %s \n", translatedCipher);
     }
 
-    void funcDecryptAndSubstitute(){
-
+    void funcDecryptAndSubstitute()
+    {
+        for (int i = 0; i < userInputToProcess.length(); i++)
+        {
+            initializationForSubstitution = true;
+            for (int j = 0; j < complexityKey; j++)
+            {
+                if (initializationForSubstitution == true )
+                {
+                    if (initializationForSubstitution == true && complexityKey > 1) {
+                        placeHolderToUseInConversion = (char) ENGLISH_ALPHABET.charAt(COSC1200_ALPHABET.indexOf(userInputToProcess.charAt(i)));
+                        initializationForSubstitution = false;
+                    }
+                    else
+                    {
+                        placeHolderToUseInConversion = (char) ENGLISH_ALPHABET.charAt(COSC1200_ALPHABET.indexOf(userInputToProcess.charAt(i)));
+                    }
+                } else // this will use the complexity key to continuously encrypt the output
+                {
+                    placeHolderToUseInConversion = ENGLISH_ALPHABET.charAt(COSC1200_ALPHABET.indexOf(placeHolderToUseInConversion));
+                }
+            }
+            translatedCipher += placeHolderToUseInConversion;
+        }
+        System.out.printf("Your encrypted substituted cipher is %s \n", translatedCipher);
     }
 
     void funcDecryptAndTranslate() {
