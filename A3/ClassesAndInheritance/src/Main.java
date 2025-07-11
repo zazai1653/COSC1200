@@ -16,10 +16,10 @@ public class Main {
             salariedStaffBruce.setYearlySalary(1000);
             System.out.println(salariedStaffBruce.getFirstName()  + ' ' + salariedStaffBruce.getLastName() + " makes $" + salariedStaffBruce.getYearlySalary() + " VBucks yearly");
         }
-        catch (IllegalArgumentException ex){
+        catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        catch (Exception ex){
+        catch (Exception ex) {
             System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
@@ -31,10 +31,10 @@ public class Main {
             hourlyWorkerClark.setHoursPerWeek(35);
             System.out.println(hourlyWorkerClark.getFirstName()  + ' ' + hourlyWorkerClark.getLastName() + " has an hourly rate of " + hourlyWorkerClark.getHourlyRate() + " and has worked " + hourlyWorkerClark.hoursPerWeek + " hours this week");
         }
-        catch (IllegalArgumentException ex){
+        catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        catch (Exception ex){
+        catch (Exception ex) {
             System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
@@ -50,7 +50,7 @@ public class Main {
             staffArray[4] = new HourlyWorker("Johnson Patel", LocalDate.of(2025, 7, 11), "67890123", 16, 0);
 
             System.out.println(); // New line to display info neatly
-            for (Employee emp : staffArray){
+            for (Employee emp : staffArray) {
                 System.out.println("Employee ID: " + emp.getEmployeeID() + ", employee name: " + emp.getFirstName() + ' ' + emp.getLastName() + ", weekly salary: " + emp.calculatePayDay());
                 totalAmountPaid += emp.calculatePayDay();
             }
@@ -59,14 +59,14 @@ public class Main {
             totalAmountPaid = Double.parseDouble(totalAmountPaidPlaceholder);
             System.out.println("\nTotal amount paid this week: " + totalAmountPaid);
         }
-        catch (IllegalArgumentException ex){
+        catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        catch (Exception ex){
+        catch (Exception ex) {
             System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
-        try{
+        try {
             // New line for improved readability
             System.out.println();
             Intern robin = new Intern("Robin Wayne", LocalDate.of(2000, 1, 1), "78901234", 25.4219869865251683951341451, 40.1245325634);
@@ -75,9 +75,10 @@ public class Main {
         catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
-        catch (Exception ex){
+        catch (Exception ex) {
             System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
+        System.out.println("\nFarewell!");
     }
 }

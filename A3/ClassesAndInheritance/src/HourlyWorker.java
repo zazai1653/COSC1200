@@ -46,6 +46,7 @@ public class HourlyWorker extends Employee {
         if (hoursPerWeekArg < 0 || hoursPerWeekArg > 48){
             throw new IllegalArgumentException("The hours worked per week must not be negative or greater than 48");
         }
+
         hoursPerWeek = hoursPerWeekArg;
     }
 

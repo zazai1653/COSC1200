@@ -16,10 +16,10 @@ public class Intern extends Employee {
     public Intern(String fullNameArg, LocalDate birthDateArg, String employeeIDArg, double hourlyRateArg, double hoursPerWeekArg) throws IllegalArgumentException {
         super(fullNameArg, birthDateArg, employeeIDArg);
 
-        if (hourlyRateArg < 16){
+        if (hourlyRateArg < 16) {
             throw new IllegalArgumentException("The hourly rate must be $16 or higher");
         }
-        if(hoursPerWeekArg < 0 || hoursPerWeekArg > 48){
+        if(hoursPerWeekArg < 0 || hoursPerWeekArg > 48) {
             throw new IllegalArgumentException("The hours worked per week must not be negative or greater than 48");
         }
 
@@ -28,7 +28,7 @@ public class Intern extends Employee {
     }
 
 
-    public double getHourlyRate(){
+    public double getHourlyRate() {
         return hourlyRate;
     }
 
@@ -48,6 +48,7 @@ public class Intern extends Employee {
         if (hoursPerWeekArg < 0 || hoursPerWeekArg > 48){
             throw new IllegalArgumentException("The hours worked per week must not be negative or greater than 48");
         }
+        
         hoursPerWeek = hoursPerWeekArg;
     }
 
