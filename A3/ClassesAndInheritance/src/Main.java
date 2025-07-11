@@ -16,7 +16,7 @@ public class Main {
             System.out.println(ex.getMessage());
         }
         catch (Exception ex){
-            System.out.println("An unexpected exception was thrown");
+            System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
         // Creates hourly worker staff instance and changes the attributes with exception handling incorporated main
@@ -31,7 +31,7 @@ public class Main {
             System.out.println(ex.getMessage());
         }
         catch (Exception ex){
-            System.out.println("An unexpected exception was thrown");
+            System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
         // Creates array including at least two new salaried staff objects and three new hourly worker objects.
@@ -59,20 +59,21 @@ public class Main {
             System.out.println(ex.getMessage());
         }
         catch (Exception ex){
-            System.out.println("An unexpected exception was thrown");
+            System.out.println("An unexpected error was thrown " + ex.getMessage());
+        }
+
+        try{
+            // New line for improved readability
+            System.out.println();
+            Intern robin = new Intern("Robin Wayne", LocalDate.of(2000, 1, 1), "78901234", 25.4219869865251683951341451, 40.1245325634);
+            System.out.println("Robin's ID: " + robin.getEmployeeID() + ", Robin's name: " + robin.getFirstName() + ' ' + robin.getLastName() + ", weekly salary: " + robin.calculatePayDay());
+        }
+        catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+        }
+        catch (Exception ex){
+            System.out.println("An unexpected error was thrown " + ex.getMessage());
         }
 
     }
 }
-
-/*
-        try {
-
-        }
-        catch (IllegalArgumentException ex){
-
-        }
-        catch (Exception ex){
-
-        }
-        */
