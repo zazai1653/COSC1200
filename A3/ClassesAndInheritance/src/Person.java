@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The base class file which is used by employee and all subsequent subclasses
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;

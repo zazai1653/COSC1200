@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The main file
+
 import java.util.*;
 import java.time.LocalDate;;
 
@@ -36,7 +40,7 @@ public class Main {
 
         // Creates array including at least two new salaried staff objects and three new hourly worker objects.
         try {
-            double totalAmountPaid = 0.0;
+            double totalAmountPaid = 0.0; // This double is used to keep track of the total amount paid to all employees
             String totalAmountPaidPlaceholder = "\0";
             Employee[] staffArray = new Employee[5];
             staffArray[0] = new SalariedStaff("Barry Allen", LocalDate.of(1992, 5, 1), "23456789", 1000);

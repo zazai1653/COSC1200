@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The abstract employee which has the abstract calculatePayDay and getEmployeeId methods
+
 import java.time.LocalDate;
 
 abstract public class Employee extends Person {

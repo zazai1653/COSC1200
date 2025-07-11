@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The file to go beyond and above by creating an intern class which is paid a stipend
+
 import java.time.LocalDate;
 
 public class Intern extends Employee {

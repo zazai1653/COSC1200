@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The salaried staff file which is paid based on a yearly salary
+
 import java.time.LocalDate;
 
 public class SalariedStaff extends Employee {

@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-11
+// Description: The hourly worker file which implements an hourly rate and hours worked per week
+
 import java.time.LocalDate;
 
 public class HourlyWorker extends Employee {
