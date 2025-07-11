@@ -11,18 +11,20 @@ public class SalariedStaff extends Employee {
 
     public SalariedStaff(String fullNameArg, LocalDate birthDateArg, String employeeIDArg, double yearlySalaryArg) throws IllegalArgumentException {
         super(fullNameArg, birthDateArg, employeeIDArg);
-        this.yearlySalary = yearlySalaryArg;
 
-        if (yearlySalary < 0){
+        if (yearlySalaryArg < 0){
             throw new IllegalArgumentException("The yearly salary cannot be a negative value");
         }
+
+        yearlySalary = yearlySalaryArg;
     }
 
     public void setYearlySalary(double yearlySalaryArg) throws IllegalArgumentException {
         if (yearlySalaryArg < 0) {
             throw new IllegalArgumentException("The yearly salary cannot be a negative value");
         }
-        else { this.yearlySalary = yearlySalaryArg; }
+
+        yearlySalary = yearlySalaryArg;
     }
 
     public double getYearlySalary (){
