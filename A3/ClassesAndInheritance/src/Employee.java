@@ -1,24 +1,24 @@
 import java.time.LocalDate;
 
-public class Employee extends Person {
+abstract public class Employee extends Person {
 
     // Attributes
-    final String employeeId;
+    final String employeeID;
 
-    /**
-     * Initializes a person object based on parameters.
-     *
-     * @param fullName  - the intended full name, in order, separated by spaces.
-     * @param birthDate - the intended birth date.
-     * @throws IllegalArgumentException when fullName contains less than one
-     *                                  character or when fullName contains something other than letters, spaces,
-     *                                  hyphens, or apostrophes.
-     */
-    public Employee(String employeeId, String fullName, LocalDate birthDate) {
-        super(fullName, birthDate);
-        this.employeeId = employeeId;
-        if (employeeId.length() == 8){
-            System.out.println("Your employee ID must be 8 digits long, instead it is " + employeeId.length());
+    // Class constructor
+    public Employee(String fullNameArg, LocalDate birthDateArg, String employeeIDArg) throws IllegalArgumentException{
+        super(fullNameArg, birthDateArg);
+        this.employeeID = employeeIDArg;
+
+        if (employeeID.length() != 8){ // If the employee id length isn't 8, throw an exception
+            throw new IllegalArgumentException("Your employee ID must be exactly 8 digits long!");
         }
     }
+
+    public String getEmployeeID(){
+        return employeeID;
+    }
+
+    abstract public double calculatePayDay();
+
 }
