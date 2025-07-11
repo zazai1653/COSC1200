@@ -17,5 +17,8 @@ public class Employee extends Person {
     public Employee(String employeeId, String fullName, LocalDate birthDate) {
         super(fullName, birthDate);
         this.employeeId = employeeId;
+        if (employeeId.length() == 8){
+            System.out.println("Your employee ID must be 8 digits long, instead it is " + employeeId.length());
+        }
     }
 }
