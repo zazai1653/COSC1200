@@ -1,13 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent; // even though java.awt.* is imported, my code wont work without specification
+import java.awt.event.ActionEvent; // even though java.awt.* is imported, my code won't work without specification
 import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Main {
-    private static void appendFile(String userInputFilename) {
-        System.out.println("Hi");
-    }
     public static void main(String[] args) {
         JFrame frame = new JFrame("Simple Text Editor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,13 +28,14 @@ public class Main {
         scrollPane = new JScrollPane(textArea);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         JPanel textAreaPanel = new JPanel(new GridLayout(2,1));
-        textAreaPanel.add(new JLabel("In the text area below you can write what you'd like to the file, or see the contents of the file chosen."));
+        textAreaPanel.add(new JLabel("Once you open a file, the text area below will show the contents of the file chosen and you can write what you'd like to add."));
         textAreaPanel.add(scrollPane);
 
         // button panel (Open, Save, Exit) code below
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 5, 5));
 
         JButton openButton = new JButton("Open");
+        openButton.setToolTipText("Click to select a file for editing");
         openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -71,6 +69,7 @@ public class Main {
         buttonPanel.add(openButton);
 
         JButton saveButton = new JButton("Save");
+        saveButton.setToolTipText("Click to save what you have written to the file");
         saveButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -96,6 +95,7 @@ public class Main {
         buttonPanel.add(saveButton);
 
         JButton exitButton = new JButton("Exit");
+        exitButton.setToolTipText("Click to exit the UI");
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
