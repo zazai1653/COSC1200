@@ -23,7 +23,7 @@ public class Main {
         JPanel greetingPanel = new JPanel(new GridLayout(1, 1));
         greetingPanel.add(new JLabel("Greetings! Welcome to the simple text editor app using swing."));
 
-        // JTextArea used to write and read to and from files
+        // JTextArea used to write and read to and from files, I included it in a scrollPane to improve clarity
         JTextArea textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -35,7 +35,7 @@ public class Main {
         textAreaPanel.add(scrollPane);
 
         // button panel (Open, Save, Exit) code below
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
+        JPanel buttonPanel = new JPanel(new FlowLayout (FlowLayout.CENTER, 10, 5));
 
         // labelled textbox creation
         File fileForLabelledTextBox = fileChooser.getSelectedFile();
@@ -72,8 +72,7 @@ public class Main {
                         else {
                             pathTextField.setText("No file selected yet");
                         }
-
-                        br.close(); // closed in the try to avoid additional lines
+                        br.close(); // I closed the BufferedReader at the end to avoid extra lines
                     }
                     catch (IOException ioex){
                         ioex.printStackTrace();
@@ -102,7 +101,7 @@ public class Main {
                     String fileContent = textArea.getText();
                     BufferedWriter bw = new BufferedWriter(new FileWriter(file1));
                     bw.write(fileContent);
-                    bw.close();
+                    bw.close(); // I closed the BufferedWriter at the end to avoid extra lines
                 }
                 catch (NullPointerException ne){
                     textArea.setText("Slow your roll cowboy, you've gotta select a file first.");
@@ -132,7 +131,10 @@ public class Main {
 
         // Secret sauce - fortune teller: you type what action you want to perform and RNG will tell you how it would turn out, talks baseless nonsense just like a real fortune teller
         JPanel fortuneTellerPanel = new JPanel(new GridLayout(3, 1));
-        JLabel fortuneTellerLabel = new JLabel("I am a fortune teller, you'd listen to my divinations to live a life that's stellar.\nTell me your heart's desire, and I will tell you what action you require.");
+        // I used chatGPT to learn how to create newlines in a JLabel
+        JLabel fortuneTellerLabel = new JLabel("<html>I am a fortune teller, you'd listen to my divinations to live a life that's stellar.<br>Tell me your heart's desire, and I will tell you what action you require.</html>");
+        fortuneTellerLabel.setForeground(Color.red);
+        fortuneTellerPanel.setBackground(Color.yellow);
         fortuneTellerPanel.add(fortuneTellerLabel);
         JTextArea fortuneTellerTextArea = new JTextArea();
         fortuneTellerTextArea.setLineWrap(true);
@@ -148,18 +150,28 @@ public class Main {
                     int randomNumber = rand.nextInt(5 - 1 + 1) + 1;
                     switch(randomNumber){
                         case 1:
+                            fortuneTellerTextArea.setBackground(Color.blue);
+                            fortuneTellerTextArea.setForeground(Color.green);
                             fortuneTellerTextArea.setText("The spirits tell me great things await you if you \"" + fortuneTellerTextArea.getText() + "\"");
                             break;
                         case 2:
+                            fortuneTellerTextArea.setBackground(Color.blue);
+                            fortuneTellerTextArea.setForeground(Color.green);
                             fortuneTellerTextArea.setText("Good things await you if you \"" + fortuneTellerTextArea.getText() + "\"");
                             break;
                         case 3:
+                            fortuneTellerTextArea.setBackground(Color.white);
+                            fortuneTellerTextArea.setForeground(Color.black);
                             fortuneTellerTextArea.setText("The spirits are unsure of the outcome for\"" + fortuneTellerTextArea.getText() + "\"");
                             break;
                         case 4:
+                            fortuneTellerTextArea.setBackground(Color.black);
+                            fortuneTellerTextArea.setForeground(Color.red);
                             fortuneTellerTextArea.setText("If you \"" + fortuneTellerTextArea.getText() + "\" it will not go in your favour");
                             break;
                         case 5:
+                            fortuneTellerTextArea.setBackground(Color.black);
+                            fortuneTellerTextArea.setForeground(Color.red);
                             fortuneTellerTextArea.setText("The spirits strongly protest against \"" + fortuneTellerTextArea.getText() + "\"");
                             break;
                     }
