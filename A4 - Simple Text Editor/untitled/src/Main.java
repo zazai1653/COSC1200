@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent; // even though java.awt.* is imported, my code won't work without specification
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +16,8 @@ public class Main {
         JFileChooser fileChooser = new JFileChooser();
         File fileChosen = null;
         JScrollPane scrollPane;
+
+        Random rand = new Random();
 
         // greeting panel
         JPanel greetingPanel = new JPanel(new GridLayout(1, 1));
@@ -36,13 +39,9 @@ public class Main {
 
         // labelled textbox creation
         File fileForLabelledTextBox = fileChooser.getSelectedFile();
-        JTextField pathTextField = new JTextField("");
+        JTextField pathTextField = new JTextField("No path file selected");
         JPanel pathPanel = new JPanel(new GridLayout(1,1));
         pathPanel.add(pathTextField);
-        if (fileForLabelledTextBox == null){
-            pathTextField.setText("No path file detected");
-        }
-
 
         // open button
         JButton openButton = new JButton("Open");
@@ -131,6 +130,48 @@ public class Main {
         });
         buttonPanel.add(exitButton);
 
+        // Secret sauce - fortune teller: you type what action you want to perform and RNG will tell you how it would turn out, talks baseless nonsense just like a real fortune teller
+        JPanel fortuneTellerPanel = new JPanel(new GridLayout(3, 1));
+        JLabel fortuneTellerLabel = new JLabel("I am a fortune teller, you'd listen to my divinations to live a life that's stellar.\nTell me your heart's desire, and I will tell you what action you require.");
+        fortuneTellerPanel.add(fortuneTellerLabel);
+        JTextArea fortuneTellerTextArea = new JTextArea();
+        fortuneTellerTextArea.setLineWrap(true);
+        fortuneTellerTextArea.setWrapStyleWord(true);
+        fortuneTellerTextArea.setBorder(BorderFactory.createLineBorder(Color.MAGENTA,2));
+
+        JButton fortuneTellerButton = new JButton("Divinate");
+        fortuneTellerButton.setToolTipText("Click to know what awaits!");
+        fortuneTellerButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if (!fortuneTellerTextArea.getText().isEmpty()){
+                    int randomNumber = rand.nextInt(5 - 1 + 1) + 1;
+                    switch(randomNumber){
+                        case 1:
+                            fortuneTellerTextArea.setText("The spirits tell me great things await you if you \"" + fortuneTellerTextArea.getText() + "\"");
+                            break;
+                        case 2:
+                            fortuneTellerTextArea.setText("Good things await you if you \"" + fortuneTellerTextArea.getText() + "\"");
+                            break;
+                        case 3:
+                            fortuneTellerTextArea.setText("The spirits are unsure of the outcome for\"" + fortuneTellerTextArea.getText() + "\"");
+                            break;
+                        case 4:
+                            fortuneTellerTextArea.setText("If you \"" + fortuneTellerTextArea.getText() + "\" it will not go in your favour");
+                            break;
+                        case 5:
+                            fortuneTellerTextArea.setText("The spirits strongly protest against \"" + fortuneTellerTextArea.getText() + "\"");
+                            break;
+                    }
+                }
+                else{
+                    fortuneTellerTextArea.setText("Hold your horses, my power to tell require sources, write something and I can divinate using supernatural forces.");
+                }
+            }
+        });
+        fortuneTellerPanel.add(fortuneTellerTextArea);
+        fortuneTellerPanel.add(fortuneTellerButton);
+
         // wrapper panel with vertical BoxLayout
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -138,8 +179,7 @@ public class Main {
         wrapper.add(textAreaPanel);
         wrapper.add(buttonPanel);
         wrapper.add(pathPanel);
-
-        // Secret sauce: fortune teller
+        wrapper.add(fortuneTellerPanel);
 
         // add wrapper
         frame.add(wrapper);
