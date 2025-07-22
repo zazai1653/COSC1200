@@ -32,8 +32,19 @@ public class Main {
         textAreaPanel.add(scrollPane);
 
         // button panel (Open, Save, Exit) code below
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 5, 5));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
 
+        // labelled textbox creation
+        File fileForLabelledTextBox = fileChooser.getSelectedFile();
+        JTextField pathTextField = new JTextField("");
+        JPanel pathPanel = new JPanel(new GridLayout(1,1));
+        pathPanel.add(pathTextField);
+        if (fileForLabelledTextBox == null){
+            pathTextField.setText("No path file detected");
+        }
+
+
+        // open button
         JButton openButton = new JButton("Open");
         openButton.setToolTipText("Click to select a file for editing");
         openButton.addActionListener(new ActionListener() {
@@ -51,6 +62,18 @@ public class Main {
                             fileContent += '\n';
                         }
                         textArea.setText(fileContent);
+                        // labelled textbox displaying the name and path of the file being edited
+                        File fileForLabelledTextBox = fileChooser.getSelectedFile();
+                        if(fileForLabelledTextBox != null) {
+                            fileForLabelledTextBox.getAbsolutePath();
+                            String absolutePath = fileForLabelledTextBox.getAbsolutePath();
+                            String fileName = fileForLabelledTextBox.getName();
+                            pathTextField.setText("The file name is " + fileName + " and the file's absolute path is: " + absolutePath);
+                        }
+                        else {
+                            pathTextField.setText("No file selected yet");
+                        }
+
                         br.close(); // closed in the try to avoid additional lines
                     }
                     catch (IOException ioex){
@@ -58,6 +81,7 @@ public class Main {
                         textArea.setText("An IOException was caught.");
                     }
                     catch (Exception ex){
+                        ex.getMessage();
                         textArea.setText("An exception was thrown");
                     }
                 }
@@ -68,6 +92,7 @@ public class Main {
         });
         buttonPanel.add(openButton);
 
+        // save button
         JButton saveButton = new JButton("Save");
         saveButton.setToolTipText("Click to save what you have written to the file");
         saveButton.addActionListener(new ActionListener(){
@@ -88,12 +113,14 @@ public class Main {
                     textArea.setText("An IOException was caught.");
                 }
                 catch (Exception ex){
+                    ex.getMessage();
                     textArea.setText("An exception was thrown");
                 }
             }
         });
         buttonPanel.add(saveButton);
 
+        // exit button
         JButton exitButton = new JButton("Exit");
         exitButton.setToolTipText("Click to exit the UI");
         exitButton.addActionListener(new ActionListener() {
@@ -110,6 +137,7 @@ public class Main {
         wrapper.add(greetingPanel);
         wrapper.add(textAreaPanel);
         wrapper.add(buttonPanel);
+        wrapper.add(pathPanel);
 
         // Secret sauce: fortune teller
 
