@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-7-22
+// Description: Simple text editor created using swing and awt in java.
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent; // even though java.awt.* is imported, my code won't work without specification
