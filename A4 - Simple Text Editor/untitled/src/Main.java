@@ -16,25 +16,77 @@ public class Main {
         frame.setLayout(new BorderLayout());
 
         JFileChooser fileChooser = new JFileChooser();
-        File currentFile = null;
+        File fileChosen = null;
+        JScrollPane scrollPane;
 
         // greeting panel
         JPanel greetingPanel = new JPanel(new GridLayout(1, 1));
         greetingPanel.add(new JLabel("Greetings! Welcome to the simple text editor app using swing."));
 
+        // JTextArea used to write and read to and from files
+        JTextArea textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+        scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        JPanel textAreaPanel = new JPanel(new GridLayout(2,1));
+        textAreaPanel.add(new JLabel("In the text area below you can write what you'd like to the file, or see the contents of the file chosen."));
+        textAreaPanel.add(scrollPane);
+
         // button panel (Open, Save, Exit) code below
         JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 5, 5));
 
         JButton openButton = new JButton("Open");
-        openButton.addActionListener(new ActionListener(){
+        openButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
 
+                int openedAFile = fileChooser.showOpenDialog(frame);
+                if(openedAFile == JFileChooser.APPROVE_OPTION){
+                    try{
+                        BufferedReader br = new BufferedReader(new FileReader(fileChooser.getSelectedFile()));
+                        String fileContent = "";
+                        String fileLine;
+                        while((fileLine = br.readLine()) != null){
+                            fileContent += fileLine;
+                            fileContent += '\n';
+                        }
+                        textArea.setText(fileContent);
+                    }
+                    catch (IOException ex){
+                        textArea.setText("An IOException was caught.");
+                    }
+                }
+                else{
+                    textArea.setText("You didn't open a file, hesitation leads to defeat!");
+                }
             }
         });
         buttonPanel.add(openButton);
 
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("Save");/*
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setCurrentDirectory(new File("."));
+
+                int response = fileChooser.showSaveDialog(null);
+
+                if(response == JFileChooser.APPROVE_OPTION){
+                    File fileChosen;
+                    fileChosen = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                    try {
+                        System.out.println("This is where the file will be written and the textbox would show");
+                    }
+                    catch (FileNotFoundException ex){
+                        ex.printStackTrace();
+                    }
+                    finally{ System.out.println("I will close whichever file is opened");}
+                }
+            }
+        });*/
         buttonPanel.add(saveButton);
 
         JButton exitButton = new JButton("Exit");
@@ -46,21 +98,12 @@ public class Main {
         });
         buttonPanel.add(exitButton);
 
-        // JTextArea used to write and read to and from files
-        JTextArea textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
-        JPanel textAreaPanel = new JPanel(new GridLayout(2,1));
-        textAreaPanel.add(new JLabel("In the text area below you can write what you'd like to the file, or see the contents of the file chosen."));
-        textAreaPanel.add(textArea);
-
         // wrapper panel with vertical BoxLayout
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.add(greetingPanel);
-        wrapper.add(buttonPanel);
         wrapper.add(textAreaPanel);
+        wrapper.add(buttonPanel);
 
         // Secret sauce: fortune teller
 
