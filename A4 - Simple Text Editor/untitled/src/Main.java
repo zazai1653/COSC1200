@@ -53,9 +53,14 @@ public class Main {
                             fileContent += '\n';
                         }
                         textArea.setText(fileContent);
+                        br.close(); // closed in the try to avoid additional lines
                     }
-                    catch (IOException ex){
+                    catch (IOException ioex){
+                        ioex.printStackTrace();
                         textArea.setText("An IOException was caught.");
+                    }
+                    catch (Exception ex){
+                        textArea.setText("An exception was thrown");
                     }
                 }
                 else{
@@ -65,28 +70,29 @@ public class Main {
         });
         buttonPanel.add(openButton);
 
-        JButton saveButton = new JButton("Save");/*
+        JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setCurrentDirectory(new File("."));
-
-                int response = fileChooser.showSaveDialog(null);
-
-                if(response == JFileChooser.APPROVE_OPTION){
-                    File fileChosen;
-                    fileChosen = new File(fileChooser.getSelectedFile().getAbsolutePath());
-                    try {
-                        System.out.println("This is where the file will be written and the textbox would show");
-                    }
-                    catch (FileNotFoundException ex){
-                        ex.printStackTrace();
-                    }
-                    finally{ System.out.println("I will close whichever file is opened");}
+                try {
+                    File file1 = fileChooser.getSelectedFile();
+                    String fileContent = textArea.getText();
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file1));
+                    bw.write(fileContent);
+                    bw.close();
+                }
+                catch (NullPointerException ne){
+                    textArea.setText("Slow your roll cowboy, you've gotta select a file first.");
+                }
+                catch (IOException ex){
+                    ex.printStackTrace();
+                    textArea.setText("An IOException was caught.");
+                }
+                catch (Exception ex){
+                    textArea.setText("An exception was thrown");
                 }
             }
-        });*/
+        });
         buttonPanel.add(saveButton);
 
         JButton exitButton = new JButton("Exit");
