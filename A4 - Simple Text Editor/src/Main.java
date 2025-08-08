@@ -4,7 +4,7 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent; // even though java.awt.* is imported, my code won't work without specification
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
