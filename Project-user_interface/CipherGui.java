@@ -1,3 +1,7 @@
+// Name: Rustam Zazai
+// Date: 2025-8-9
+// Description: A GUI which integrates the cipher program we wrote before. This allows you to encrypt/decrypt text based on whether you want to substitute/translate.
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
