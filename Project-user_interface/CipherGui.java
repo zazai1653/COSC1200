@@ -53,26 +53,22 @@ public class CipherGui {
                 return translatedCipher;
             }
             catch (Exception ex){
-                return "Error! enter a valid shift key within the range of -128 to 255!";
+                return "Error! enter a valid shift key within the range of -128 to 127!";
             }
         }
 
         String funcEncryptAndSubstitute(String userInputToProcess, String complexityKeyString) {
             translatedCipher = "";
             this.userInputToProcess = userInputToProcess;
-            System.out.println("executed funcEncryptAndSubstitute");
             try {
                 this.complexityKey = Byte.parseByte(complexityKeyString);
-                System.out.println("2 inside the try block");
                 for (int i = 0; i < userInputToProcess.length(); i++) {
-                    System.out.println("3 in for loop of user input's length");
                     if(Character.isLetterOrDigit(userInputToProcess.charAt(i))){
                         char current = userInputToProcess.charAt(i);
                         char result = current;
 
                         for (int j = 0; j < complexityKey; j++) {
                             result = COSC1200_ALPHABET.charAt(ENGLISH_ALPHABET.indexOf(result));
-                            System.out.println("4 in complexity key loop");
                         }
                         translatedCipher += result;
                     }
@@ -86,41 +82,72 @@ public class CipherGui {
                 return translatedCipher;
             }
             catch(Exception ex){
-                return "Error! enter a valid complexity key within the range of -128 to 255!";
+                return "Error! enter a valid complexity key within the range of -128 to 127!";
             }
         }
 
-        void funcDecryptAndSubstitute() {
+        String funcDecryptAndSubstitute(String userInputToProcess, String complexityKeyString) {
             translatedCipher = "";
-            for (int i = 0; i < userInputToProcess.length(); i++) {
-                char current = userInputToProcess.charAt(i);
-                char result = current;
-                for (int j = 0; j < complexityKey; j++) {
-                    result = ENGLISH_ALPHABET.charAt(COSC1200_ALPHABET.indexOf(result));
+            try{
+                this.userInputToProcess = userInputToProcess;
+                this.complexityKey = Byte.parseByte(complexityKeyString);
+                for (int i = 0; i < userInputToProcess.length(); i++) {
+                    char current = userInputToProcess.charAt(i);
+                    if (Character.isLetterOrDigit(userInputToProcess.charAt(i))) {
+                        char result = current;
+                        for (int j = 0; j < complexityKey; j++) {
+                            result = ENGLISH_ALPHABET.charAt(COSC1200_ALPHABET.indexOf(result));
+                        }
+                        translatedCipher += result;
+                    }
+                    else if (!Character.isLetterOrDigit(userInputToProcess.charAt(i))) {
+                        translatedCipher += userInputToProcess.charAt(i);
+                    }
+                    else if (Character.isWhitespace(userInputToProcess.charAt(i))){
+                        translatedCipher += ' ';
+                    }
                 }
-                translatedCipher += result;
             }
-            System.out.printf("Your decrypted substituted cipher is %s\n", translatedCipher);
+            catch(Exception ex){
+                return "Error! enter a valid complexity key within the range of -128 to 127!";
+            }
+            return translatedCipher;
         }
 
-        void funcDecryptAndTranslate() {
+        String funcDecryptAndTranslate(String userInputToProcess, String userInputShiftKeyString) {
             translatedCipher = "";
-            for (int i = 0; i < userInputToProcess.length(); i++) {
-                shiftKey = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
-                if (userInputShiftKey < 0) {
-                    for (int j = 0; j > userInputShiftKey; j--) {
-                        shiftKey--;
-                        if (shiftKey < 0) shiftKey = (byte) (ENGLISH_ALPHABET.length() - 1);
+            try {
+                this.userInputShiftKey = Byte.parseByte(userInputShiftKeyString);
+                this.userInputToProcess = userInputToProcess;
+
+                int N = ENGLISH_ALPHABET.length();
+
+                for (int i = 0; i < userInputToProcess.length(); i++) {
+                    char current = userInputToProcess.charAt(i);
+
+                    if (Character.isLetterOrDigit(current)) {
+                        int index = ENGLISH_ALPHABET.indexOf(current);
+
+                        // Reverse the shift (decrypt):
+                        // Subtract the userInputShiftKey, wrap with modulo to stay positive
+                        int shifted = (index - userInputShiftKey) % N;
+                        if (shifted < 0) shifted += N;
+
+                        translatedCipher += ENGLISH_ALPHABET.charAt(shifted);
                     }
-                } else {
-                    for (int j = 0; j < userInputShiftKey; j++) {
-                        shiftKey++;
-                        if (shiftKey >= ENGLISH_ALPHABET.length()) shiftKey = 0;
+                    else if (!Character.isLetterOrDigit(current)) {
+                        translatedCipher += current;
+                    }
+                    else if (Character.isWhitespace(current)) {
+                        translatedCipher += ' ';
                     }
                 }
-                translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
             }
-            System.out.printf("Your decrypted translated cipher is %s\n", translatedCipher);
+            catch (Exception ex){
+                return "Error! enter a valid translation key within the range of -128 to 127!";
+            }
+
+            return translatedCipher;
         }
     }
 
@@ -160,7 +187,7 @@ public class CipherGui {
 
         // labels 2+3/6 - Alphabets
         JPanel alphabetsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        alphabetsPanel.add(new JLabel("<html>English alphabet: " + ENGLISH_ALPHABET + "<br> COSC1200 alphabet: " + COSC1200_ALPHABET + "<br><br><br><br>If you select translate, the complexity key will not be used and if you select substitute, the complexity key will not be used!</html>"));
+        alphabetsPanel.add(new JLabel("<html>English alphabet: " + ENGLISH_ALPHABET + "<br> COSC1200 alphabet: " + COSC1200_ALPHABET + "<br><br><br><br>If you select translate, the complexity key will not be used and if you select substitute, the shift key will not be used!</html>"));
         // 2 radio buttons for substitution/translation
         JPanel radioButtonsTranslateSubstitutePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         JRadioButton translateButton = new JRadioButton("Translate", true);
@@ -222,8 +249,12 @@ public class CipherGui {
         decryptButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
+                CipherProgram cipherP = new CipherProgram();
                 if(translateButton.isSelected()){
-                 System.out.println();
+                    resultLabel.setText(cipherP.funcDecryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
+                }
+                else{
+                    resultLabel.setText(cipherP.funcDecryptAndSubstitute(userInput.getText(), complexityKeyTextField.getText()));
                 }
             }
         });
