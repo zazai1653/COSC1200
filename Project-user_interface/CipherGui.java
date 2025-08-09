@@ -227,12 +227,12 @@ public class CipherGui {
 
         // ABOVE AND BEYOND: save and open buttons for file interaction
         JButton openButton = new JButton("Open");
-        openButton.setToolTipText("Click to select a file for editing");
+        openButton.setToolTipText("Click/Alt+O to select a file for editing");
         openButton.setMnemonic(KeyEvent.VK_O);
         buttonsPanel.add(openButton);
 
         JButton saveButton = new JButton("Save");
-        saveButton.setToolTipText("Click to select a save to a selected file");
+        saveButton.setToolTipText("Click/Alt+S to save to a selected file");
         saveButton.setMnemonic(KeyEvent.VK_S);
         buttonsPanel.add(saveButton);
 
