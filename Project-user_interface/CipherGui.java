@@ -225,6 +225,17 @@ public class CipherGui {
         decryptButton.setMnemonic(KeyEvent.VK_D);
         buttonsPanel.add(decryptButton);
 
+        // ABOVE AND BEYOND: save and open buttons for file interaction
+        JButton openButton = new JButton("Open");
+        openButton.setToolTipText("Click to select a file for editing");
+        openButton.setMnemonic(KeyEvent.VK_O);
+        buttonsPanel.add(openButton);
+
+        JButton saveButton = new JButton("Save");
+        saveButton.setToolTipText("Click to select a save to a selected file");
+        saveButton.setMnemonic(KeyEvent.VK_S);
+        buttonsPanel.add(saveButton);
+
         JButton exitButton = new JButton("Exit");
         exitButton.setToolTipText("Click/Alt+L to exit the GUI");
         exitButton.setMnemonic(KeyEvent.VK_L);
@@ -235,17 +246,16 @@ public class CipherGui {
         JLabel resultLabel = new JLabel("The processed output is: ");
         resultPanel.add(resultLabel);
 
-
         // Buttons logic
         encryptButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
                 CipherProgram cipher = new CipherProgram();
                 if(translateButton.isSelected()){
-                    resultLabel.setText(cipher.funcEncryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
+                    resultLabel.setText("The translated encrypted cipher is: " + cipher.funcEncryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
                 }
                 else{
-                    resultLabel.setText(cipher.funcEncryptAndSubstitute(userInput.getText(), complexityKeyTextField.getText()));
+                    resultLabel.setText("The substituted encrypted cipher is: " + cipher.funcEncryptAndSubstitute(userInput.getText(), complexityKeyTextField.getText()));
                 }
             }
         });
@@ -255,10 +265,10 @@ public class CipherGui {
             public void actionPerformed(ActionEvent event){
                 CipherProgram cipherP = new CipherProgram();
                 if(translateButton.isSelected()){
-                    resultLabel.setText(cipherP.funcDecryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
+                    resultLabel.setText("The translated decrypted cipher is: " +cipherP.funcDecryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
                 }
                 else{
-                    resultLabel.setText(cipherP.funcDecryptAndSubstitute(userInput.getText(), complexityKeyTextField.getText()));
+                    resultLabel.setText("The substituted decrypted cipher is: " + cipherP.funcDecryptAndSubstitute(userInput.getText(), complexityKeyTextField.getText()));
                 }
             }
         });
@@ -267,6 +277,73 @@ public class CipherGui {
             @Override
             public void actionPerformed(ActionEvent event){
                 frame.dispose();
+            }
+        });
+
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+
+                int openedAFile = fileChooser.showOpenDialog(frame);
+                if(openedAFile == JFileChooser.APPROVE_OPTION){
+                    try{
+                        BufferedReader br = new BufferedReader(new FileReader(fileChooser.getSelectedFile()));
+                        String fileContent = "";
+                        String fileLine;
+                        while((fileLine = br.readLine()) != null){
+                            fileContent += fileLine;
+                            fileContent += '\n';
+                        }
+                        userInput.setText(fileContent);
+                        // labelled textbox displaying the name and path of the file being edited
+                        File fileForLabelledTextBox = fileChooser.getSelectedFile();
+                        if(fileForLabelledTextBox != null) {
+                            fileForLabelledTextBox.getAbsolutePath();
+                            String absolutePath = fileForLabelledTextBox.getAbsolutePath();
+                            String fileName = fileForLabelledTextBox.getName();
+                            resultLabel.setText("The file name is " + fileName + " and the file's absolute path is: " + absolutePath);
+                        }
+                        else {
+                            resultLabel.setText("No file selected yet");
+                        }
+                        br.close(); // I closed the BufferedReader at the end to avoid extra lines
+                    }
+                    catch (IOException ioex){
+                        ioex.printStackTrace();
+                        resultLabel.setText("An IOException was caught.");
+                    }
+                    catch (Exception ex){
+                        ex.getMessage();
+                        resultLabel.setText("An exception was thrown");
+                    }
+                }
+                else{
+                    resultLabel.setText("You didn't open a file.");
+                }
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try {
+                    File file1 = fileChooser.getSelectedFile();
+                    String fileContent = userInput.getText();
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file1));
+                    bw.write(fileContent);
+                    bw.close(); // I closed the BufferedWriter at the end to avoid extra lines
+                }
+                catch (NullPointerException ne){
+                    resultLabel.setText("You must first select a file");
+                }
+                catch (IOException ex){
+                    ex.printStackTrace();
+                    resultLabel.setText("An IOException was caught.");
+                }
+                catch (Exception ex){
+                    ex.getMessage();
+                    resultLabel.setText("An exception was thrown");
+                }
             }
         });
 
