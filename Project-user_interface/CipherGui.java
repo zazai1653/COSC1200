@@ -6,10 +6,9 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.*;
 
+public class CipherGui {
 
-public class CypherGui {
-
-    class CipherProgram {
+    static class CipherProgram {
         final Scanner input = new Scanner(System.in);
         final String ENGLISH_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         final String COSC1200_ALPHABET = "YWLRASKTEZGMVHQBXNCDIJFUOPywlrasktezgmvhqbxncdijfuop";
@@ -23,8 +22,11 @@ public class CypherGui {
         boolean initializationForSubstitution = true;
 
 
-        void funcEncryptAndTranslate() {
+        String funcEncryptAndTranslate(String userInputToProcess, String userInputShiftKeyString) {
             translatedCipher = "";
+            this.userInputToProcess = userInputToProcess;
+            this.userInputShiftKey = Byte.parseByte(userInputShiftKeyString);
+            System.out.println(userInputToProcess);
             for (int i = 0; i < userInputToProcess.length(); i++) {
                 shiftKey = (byte) ENGLISH_ALPHABET.indexOf(userInputToProcess.charAt(i));
                 if (userInputShiftKey < 0) {
@@ -41,6 +43,7 @@ public class CypherGui {
                 translatedCipher += ENGLISH_ALPHABET.charAt(shiftKey);
             }
             System.out.printf("Your translated cipher is %s\n", translatedCipher);
+            return translatedCipher;
         }
 
         void funcEncryptAndSubstitute() {
@@ -88,9 +91,11 @@ public class CypherGui {
             }
             System.out.printf("Your decrypted translated cipher is %s\n", translatedCipher);
         }
-}
+    }
+
 
     public static void main(String[] args) {
+
         final String ENGLISH_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         final String COSC1200_ALPHABET = "YWLRASKTEZGMVHQBXNCDIJFUOPywlrasktezgmvhqbxncdijfuop";
 
@@ -165,7 +170,8 @@ public class CypherGui {
 
         // label 6/6 - result area
         JPanel resultPanel = new JPanel(new GridLayout(1, 1));
-        resultPanel.add(new JLabel("The processed output is: "));
+        JLabel resultLabel = new JLabel("The processed output is: ");
+        resultPanel.add(resultLabel);
 
 
         // Buttons logic
@@ -174,10 +180,10 @@ public class CypherGui {
             public void actionPerformed(ActionEvent event){
                 if(translateButton.isSelected()){
                     CipherProgram cipher = new CipherProgram();
-                    funcEncryptAndTranslate();
+                    resultLabel.setText(cipher.funcEncryptAndTranslate(userInput.getText(), shiftKeyTextField.getText()));
                 }
                 else{
-
+                    System.out.println("Substitute and encrypt");
                 }
             }
         });
